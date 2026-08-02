@@ -1,0 +1,79 @@
+body {
+    font-family: sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.form-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 2;
+    padding: 8px;
+}
+
+input[type="date"],
+select,
+button {
+    padding: 8px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.priority-高 {
+    background: #ffcccc;
+    color: #cc0000;
+}
+
+.priority-中 {
+    background: #e6f2ff;
+    color: #0066cc;
+}
+
+.priority-低 {
+    background: #e6ffe6;
+    color: #009900;
+}
+
+.due {
+    font-size: 13px;
+    color: #666;
+}
+
+a.del-btn {
+    color: #888;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a.del-btn:hover {
+    color: red;
+}

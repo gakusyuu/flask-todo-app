@@ -11,6 +11,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
+            due_date TEXT,
+            priority TEXT DEFAULT '中',
             is_done INTEGER DEFAULT 0
         )
     ''')
@@ -21,23 +23,35 @@ def init_db():
 init_db()
 
 # 一覧表示（READ）
+# 変更点 期限が近い順、かつ優先度順にソート
 @app.route('/')
 def index():
     conn = sqlite3.connect('todo.db')
     c = conn.cursor()
-    c.execute('SELECT id, title, is_done FROM tasks')
+    # due_dateがからのものは後ろに、あるものは日付順に取得
+    c.execute('''
+        SELECT id, title, due_date, priority, is_done FROM tasks
+        ORDER BY CASE WHEN due_date IS NULL OR due_date = '' THEN 1 ELSE 0 END, due_date ASC
+    ''')
     tasks = c.fetchall()
     conn.close()
     return render_template('index.html', tasks=tasks)
 
 # タスク追加（CREATE）
+# 変更点 期限日・優先度を受け取る
 @app.route('/add', methods=['POST'])
 def add():
     title = request.form.get('title')
+    due_date = request.form.get('due_date')
+    priority = request.form.get('priority')
+
     if title:
         conn = sqlite3.connect('todo.db')
         c = conn.cursor()
-        c.execute('INSERT INTO tasks (title) VALUES (?)', (title,))
+        c.execute('''
+            INSERT INTO tasks (title, due_date, priority)
+            VALUES (?, ?, ?)
+        ''', (title, due_date, priority))
         conn.commit()
         conn.close()
     return redirect(url_for('index'))

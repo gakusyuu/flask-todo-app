@@ -2,47 +2,35 @@
 <html lang="ja">
 
 <head>
-    <meta charset="" UTF=8>
+    <meta charset="UTF=8">
     <title>Python ToDoアプリ</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #ccc;
-        }
-
-        a {
-            color: red;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
     <h2>Python Todoリスト</h2>
+    <!--変更点 期限と優先度の追加-->
     <form action="/add" method="POST">
         <input type="text" name="title" placeholder="新しいタスクを入力" required>
+        <input type="date" name="due_date" <select name="priority">
+        <option value="高">優先度: 高</option>
+        <option value="中">優先度: 中</option>
+        <option value="低">優先度: 低</option>
+        </select>
         <button type="submit">追加</button>
     </form>
 
     <ul>
         {% for task in tasks %}
         <li>
-            <span>{{ task[1] }}</span>
-            <a href=" /delete/{{ task[0] }}">削除</a>
+            <div class="task-info">
+                <span class="badge priority-{{ task[3] }}">{{ task[3] }}</span>
+                <strong>{{ task[1] }}</strong>
+                {% if task[2] %}
+                <span class="due">期限: {{ task[2] }}</span>
+                {% endif %}
+            </div>
+            <a href=" /delete/{{ task[0] }}" class="del-btn">削除</a>
         </li>
         {% endfor %}
     </ul>
