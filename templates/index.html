@@ -12,10 +12,11 @@
     <!--変更点 期限と優先度の追加-->
     <form action="/add" method="POST">
         <input type="text" name="title" placeholder="新しいタスクを入力" required>
-        <input type="date" name="due_date" <select name="priority">
-        <option value="高">優先度: 高</option>
-        <option value="中">優先度: 中</option>
-        <option value="低">優先度: 低</option>
+        <input type="date" name="due_date">
+        <select name="priority">
+            <option value="高">優先度: 高</option>
+            <option value="中" selected>優先度: 中</option>
+            <option value="低">優先度: 低</option>
         </select>
         <button type="submit">追加</button>
     </form>
