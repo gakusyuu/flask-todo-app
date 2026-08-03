@@ -63,6 +63,13 @@ li {
     color: #009900;
 }
 
+/* 通常時の設定 */
+.title,
+.due {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .due {
     font-size: 13px;
     color: #666;
@@ -76,4 +83,32 @@ a.del-btn {
 
 a.del-btn:hover {
     color: red;
+}
+
+/* 完了状態のスタイル設定 */
+li.completed .title,
+li.completed .due {
+    text-decoration: line-through;
+    /* 打ち消し線 */
+    color: #888;
+    /* グレー表示 */
+}
+
+li.completed {
+    background-color: #f9f9f9;
+}
+
+/* 完了切替ボタンのスタイル */
+.toggle-btn {
+    text-decoration: none;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+}
+
+.toggle-btn:hover {
+    background-color: #eee;
 }

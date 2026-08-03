@@ -23,13 +23,17 @@
 
     <ul>
         {% for task in tasks %}
-        <li>
+        <li class="{% if task[4] == 1 %}completed{% endif %}">
             <div class="task-info">
+                <a href="{{ url_for('toggle', task_id=task[0]) }}" class="btn toggle-btn">
+                    {% if task[4] == 1 %} 戻す {% else %} 完了 {% endif %}
+                </a>
                 <span class="badge priority-{{ task[3] }}">{{ task[3] }}</span>
-                <strong>{{ task[1] }}</strong>
-                {% if task[2] %}
-                <span class="due">期限: {{ task[2] }}</span>
-                {% endif %}
+                <span class="title">{{ task[1] }}</spann>
+
+                    {% if task[2] %}
+                    <span class="due">期限: {{ task[2] }}</span>
+                    {% endif %}
             </div>
             <a href=" /delete/{{ task[0] }}" class="del-btn">削除</a>
         </li>
