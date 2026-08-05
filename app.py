@@ -57,6 +57,35 @@ def add():
         conn.close()
     return redirect(url_for('index'))
 
+# v4 変更点 タスク編集　＆　更新処理
+@app.route('/edit/<int:task_id>', methods=['GET', 'POST'])
+def edit(task_id):
+    conn = sqlite3.connect('todo.db')
+    c = conn.cursor()
+
+    if request.method == 'POST':
+        # フォームから入力された値を取得
+        title = request.form.get('title')
+        due_date = request.form.get('due_date')
+        priority = request.form.get('priority')
+
+        # データベースを更新
+        c.execute('''
+            UPDATE tasks
+            SET title = ?, due_date = ?, priority = ?
+            WHERE id = ?
+        ''', (title, due_date, priority, task_id))
+
+        conn.commit()
+        conn.close()
+        return redirect(url_for('index'))
+    else:
+        # 編集対象のタスク情報を取得して編集画面へ渡す
+        c.execute('SELECT id, title, due_date, priority FROM tasks WHERE id = ?', (task_id,))
+        task = c.fetchone()
+        conn.close()
+        return render_template('edit.html', task=task)
+ 
 # v3 追加点 完了/未完了の切り替え
 @app.route('/toggle/<int:task_id>')
 def toggle(task_id):

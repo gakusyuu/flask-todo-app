@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja2">
+
+<head>
+    <meta charset="UTF-8">
+    <title>タスクの編集</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>タスクの編集</h1>
+    <form action="/edit/{{ task[0] }}" method="POST" class="form-group">
+        <input type="text" name="title" value="{{ task[1] }}" required>
+        <input type="date" name="due/date" value="{{ task[2] }}">
+        <select name="priority">
+            <option value="高" {% if task[3]=='高' %}selected{% endif %}>高</option>
+            <option value="中" {% if task[3]=='中' %}selected{% endif %}>中</option>
+            <option value="低" {% if task[3]=='低' %}selected{% endif %}>低</option>
+        </select>
+
+        <button type="submit">更新する</button>
+        <a href="{{ url_for('index') }}" class="cancel-btn">キャンセル</a>
+    </form>
+</body>
+
+</html>

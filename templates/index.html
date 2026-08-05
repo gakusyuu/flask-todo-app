@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h2>Python Todoリスト</h2>
+    <h1>Python Todoリスト</h1>
     <!--変更点 期限と優先度の追加-->
     <form action="/add" method="POST">
         <input type="text" name="title" placeholder="新しいタスクを入力" required>
@@ -25,17 +25,20 @@
         {% for task in tasks %}
         <li class="{% if task[4] == 1 %}completed{% endif %}">
             <div class="task-info">
+                <span class="badge priority-{{ task[3] }}">{{ task[3] }}</span>
+                <span class="title">{{ task[1] }}</span>
+                {% if task[2] %}
+                <span class="due">期限: {{ task[2] }}</span>
+                {% endif %}
+            </div>
+
+            <div class="task-actions">
                 <a href="{{ url_for('toggle', task_id=task[0]) }}" class="btn toggle-btn">
                     {% if task[4] == 1 %} 戻す {% else %} 完了 {% endif %}
                 </a>
-                <span class="badge priority-{{ task[3] }}">{{ task[3] }}</span>
-                <span class="title">{{ task[1] }}</spann>
-
-                    {% if task[2] %}
-                    <span class="due">期限: {{ task[2] }}</span>
-                    {% endif %}
+                <a href="/edit/{{ task[0] }}" class="edit-btn">編集</a>
+                <a href=" /delete/{{ task[0] }}" class="del-btn">削除</a>
             </div>
-            <a href=" /delete/{{ task[0] }}" class="del-btn">削除</a>
         </li>
         {% endfor %}
     </ul>
