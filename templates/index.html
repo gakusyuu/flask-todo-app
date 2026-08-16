@@ -9,7 +9,24 @@
 
 <body>
     <h1>Python Todoリスト</h1>
-    <!--変更点 期限と優先度の追加-->
+    <!-- v5 検索・フィルター機能の追加-->
+    <form action="/" method="GET" class="filter-form">
+        <!-- キーワード検索 -->
+        <input type="text" name="keyword" value="{{ keyword }}" placeholder="タスクを検索...">
+        <!-- 状態フィルター -->
+        <select name="status" onchange="this.form.submit()">
+            <option value="all" {% if status_filter=='all' %}selected{% endif %}>全て表示</option>
+            <option value="active" {% if status_filter=='active' %}selected{% endif %}>未完了のみ</option>
+            <option value="completed" {% if status_filter=='completed' %}selected{% endif %}>完了済みのみ</option>
+        </select>
+
+        <button type="submit">検索</button>
+        {% if keyword or status_filter != 'all' %}
+        <a href="/" class="reset-link">リセット</a>
+        {% endif %}
+    </form>
+
+    <!-- v2 変更点 期限と優先度の追加 -->
     <form action="/add" method="POST">
         <input type="text" name="title" placeholder="新しいタスクを入力" required>
         <input type="date" name="due_date">
@@ -32,6 +49,8 @@
                 {% endif %}
             </div>
 
+            <!--v3 完了未完了の追加-->
+            <!--v4 編集機能の追加-->
             <div class="task-actions">
                 <a href="{{ url_for('toggle', task_id=task[0]) }}" class="btn toggle-btn">
                     {% if task[4] == 1 %} 戻す {% else %} 完了 {% endif %}

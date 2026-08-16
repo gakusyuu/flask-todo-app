@@ -25,18 +25,42 @@ init_db()
 
 # 一覧表示（READ）
 # v2変更点 期限が近い順、かつ優先度順にソート
+# v5 検索・フィルター機能追加
 @app.route('/')
 def index():
+    # URLから検索条件を取得
+    status_filter = request.args.get('status', 'all')
+    keyword = request.args.get('keyword', '').strip()
+
     conn = sqlite3.connect('todo.db')
     c = conn.cursor()
+
+    # ベースとなるSQLクエリ
+    query = 'SELECT id, title, due_date, priority, is_done FROM tasks WHERE 1=1'
+    params = []
+    # ステータスでの絞り込み
+    if status_filter == 'active':
+        query += ' AND is_done = 0'
+    elif status_filter == 'completed':
+        query += ' AND is_done = 1'
+    # キーワードでの曖昧検索（LIKE）
+    if keyword:
+        query += ' AND title LIKE ?'
+        params.append(f'%{keyword}%')
+    # 並び替え（期限が近い順）
+    query += ' ORDER BY CASE WHEN due_date IS NULL OR due_date = "" THEN 1 ELSE 0 END, due_date ASC'
+
     # v2 due_dateがからのものは後ろに、あるものは日付順に取得
-    c.execute('''
-        SELECT id, title, due_date, priority, is_done FROM tasks
-        ORDER BY CASE WHEN due_date IS NULL OR due_date = '' THEN 1 ELSE 0 END, due_date ASC
-    ''')
+    # v5 
+    c.execute(query, params)
     tasks = c.fetchall()
     conn.close()
-    return render_template('index.html', tasks=tasks)
+    return render_template(
+        'index.html', 
+        tasks=tasks,
+        status_filter=status_filter,
+        keyword=keyword
+        )
 
 # タスク追加（CREATE）
 # v2変更点 期限日・優先度を受け取る

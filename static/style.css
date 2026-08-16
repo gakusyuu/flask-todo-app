@@ -136,3 +136,28 @@ a.edit-btn:hover {
     gap: 10px;
     align-items: center;
 }
+
+/* 検索・フィルターフォームのスタイル */
+.firuta-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.filter-form input[type="text"] {
+    flex: 1
+}
+
+.reset-link {
+    font-size: 13px;
+    color: #666;
+    text-decoration: none;
+}
+
+.reset-link:hover {
+    text-decoration: underline;
+}
