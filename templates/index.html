@@ -8,7 +8,13 @@
 </head>
 
 <body>
-    <h1>Python Todoリスト</h1>
+    <header style="display: flex; justify-content: space-bitween; align-items: center; margin-bottom: 20px;">
+        <h1>Python Todoリスト</h1>
+        <div>
+            <span>ようこそ、<strong>{{ session['username'] }}</strong> さん</span> |
+            <a href="/logout">ログアウト</a>
+        </div>
+    </header>
     <!-- v5 検索・フィルター機能の追加-->
     <form action="/" method="GET" class="filter-form">
         <!-- キーワード検索 -->
